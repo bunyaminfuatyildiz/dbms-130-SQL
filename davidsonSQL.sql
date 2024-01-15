@@ -96,11 +96,3 @@ SELECT COUNT(*)
 FROM Customer AS JohnCustomers
 CROSS JOIN Customer AS MargaretCustomers
 WHERE JohnCustomers.FirstName = 'John' AND MargaretCustomers.FirstName = 'Margaret';
-
-
-
-
-
-
-Select companyname
-From customer;
