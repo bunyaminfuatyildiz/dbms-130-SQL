@@ -53,7 +53,7 @@ CREATE TABLE STAR_BILLINGS (
   TITLE_ID NUMBER(10) NOT NULL,
   COMMENTS VARCHAR2(40 BYTE)
 );
-/*
+
 
 --C 	Creating Constraints (10 points)
 -- 1.. **Primary Key ASSIGN**
