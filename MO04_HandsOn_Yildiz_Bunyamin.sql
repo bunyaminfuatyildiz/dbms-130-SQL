@@ -45,7 +45,7 @@ ORDER BY m.last_name, e.last_name;
 
 SELECT c.customer_id, 
        CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
-       o.order_id,
+       o.order_nbr,
        o.order_date
 FROM Customers c
 JOIN Orders o ON c.customer_id = o.customer_id
@@ -56,12 +56,12 @@ ORDER BY o.order_date DESC, c.last_name, c.first_name;
 SELECT
     c.customer_id,
     CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
-    o.order_id,
+    o.order_nbr,
     o.order_date,
     b.book_title
 FROM Customers c
 JOIN  Orders o ON c.customer_id = o.customer_id
-JOIN OrderItems oi ON o.order_id = oi.order_id
+JOIN OrderItems oi ON o.order_nbr = oi.order_nbr
 JOIN Books b ON oi.book_id = b.book_id
 ORDER BY  o.order_date DESC, c.last_name, b.book_title;
 
@@ -73,7 +73,7 @@ ORDER BY  o.order_date DESC, c.last_name, b.book_title;
 SELECT
     CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
     c.email,
-    o.order_id,
+    o.order_nbr,
     o.order_date,
     b.book_title
 FROM
@@ -81,7 +81,7 @@ FROM
 JOIN
     orders o ON c.customer_id = o.customer_id
 JOIN
-    order_items oi ON o.order_id = oi.order_id
+    order_items oi ON o.order_nbr = oi.order_nbr
 JOIN
     books b ON oi.book_id = b.book_id
 WHERE
@@ -96,17 +96,17 @@ Your results should include all the customer details and the order number column
 SELECT c.*
 FROM customers c
 LEFT JOIN orders o ON c.customer_id = o.customer_id
-WHERE o.order_id IS NULL
+WHERE o.order_nbr IS NULL
 ORDER BY c.last_name, c.first_name;
 
 
 --i. The company is performing an analysis of their inventory. They are considering purging books that are not popular with their customers. To do this they need a list of books 
 --that have never been purchased. Write a query using a join that provides this information. Your results should include all the book details and the order number column. Sort your results by the book title.
 
-SELECT b.*, oi.order_id
+SELECT b.*, oi.order_nbr
 FROM books b
 LEFT JOIN order_items oi ON b.book_id = oi.book_id
-WHERE oi.order_id IS NULL
+WHERE oi.order_nbr IS NULL
 ORDER BY b.book_title;
 
 
@@ -138,11 +138,11 @@ But with `INTERSECT`, you're checking two separate things and then seeing where 
 Write a SQL statement that adds his customer record to the database. 
 Give him CUSTOMER_ID 999. His address is 1999 Green Mile Lane in Los Angeles, California 90210. */
 
-INSERT INTO customers (customer_id, address, city, state, postal_code)
+INSERT INTO customers (customer_id, address, city, state, zip_code)
 VALUES (999, '1999 Green Mile Lane', 'Los Angeles', 'California', '90210');
 
 ----or I add name because not null or empty (preferably according to ERD)
-INSERT INTO Customers (customer_id, first_name, last_name, address, city, state, postal_code)
+INSERT INTO Customers (customer_id, first_name, last_name, address, city, state, zip_code)
 VALUES (999, 'Joe', 'Biden', '1999 Green Mile Lane', 'Los Angeles', 'California', '90210');
 
 
