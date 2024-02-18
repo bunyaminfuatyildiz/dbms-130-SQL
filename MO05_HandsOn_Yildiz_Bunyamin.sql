@@ -1,6 +1,6 @@
---BUNYAMIN FUAT YILDIZ DATE: 02-10-2024
+--BUNYAMIN FUAT YILDIZ DATE: 
 --M05 Hands-On Lab - Querying Multiple Tables Using Joins and Using Set Operators
---Date: 02-16-2024
+--Date: 02-17-2024
 
 --A. Single Row Functions
 --a. Use the CONCAT function to concatenate the customers’ first and last names into one column. Your results should display in 1 column. Sort your results by customers’ last name.
