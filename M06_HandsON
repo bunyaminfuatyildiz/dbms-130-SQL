@@ -1,0 +1,8 @@
+
+
+
+#a.	Write a SQL statement using DISTINCT that returns a list of manager IDs.
+SELECT DISTINCT manager_id
+FROM Employees;
+
+
