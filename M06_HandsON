@@ -1,8 +1,133 @@
 
+--BUNYAMIN FUAT YILDIZ DATE: 
+--M06 Hands-On Lab - 
+--Date: 02-23-2024
 
 
-#a.	Write a SQL statement using DISTINCT that returns a list of manager IDs.
+--a.	Write a SQL statement using DISTINCT that returns a list of manager IDs.
 SELECT DISTINCT manager_id
 FROM Employees;
+
+--b. b.	Write a SQL statement that uses a subquery to list all of the employee details for managers in the organization.
+-- Sort your results by the managers’ last names.
+SELECT *
+FROM Employees
+WHERE employee_id IN (
+    SELECT DISTINCT manager_id
+    FROM Employees
+)
+ORDER BY last_name;
+
+--c.	Write a SQL statement using WHERE that returns the employee details for Kevin Mourgos.
+
+SELECT *
+FROM Employees
+WHERE last_name = 'Mourgos' AND first_name = 'Kevin';
+
+
+--d.Write a SQL statement that uses a subquery to list all the employees that report to (are managed by) Kevin Mourgos. 
+--Your results should include all employee details and be sorted by the employees’ last name.
+
+SELECT * 
+FROM Employees
+WHERE manager_id = (SELECT employee_id 
+                    FROM Employees 
+                    WHERE last_name = 'Mourgos' AND first_name = 'Kevin')
+ORDER BY last_name; 
+
+
+
+--e. 	Write a SQL statement using the MIN function to identify the lowest salary in the organization.
+SELECT MIN(salary) AS lowest_salary
+FROM Employees;
+
+--f. Write a SQL statement that uses a subquery to identify the employee that makes the least amount in the organization. 
+--Your results should include their employee details.
+SELECT * 
+FROM Employees
+WHERE salary = (
+    SELECT MIN(salary)
+    FROM Employees
+); 
+
+
+--g.	Write a SQL statement that uses a subquery to identify the employees whose salary is higher than the employee in the result of #f.
+Your results should include their employee details
+SELECT *
+FROM Employees
+WHERE salary > (
+    SELECT MIN(salary)
+    FROM Employees
+);
+
+--h.Write a SQL statement that uses a subquery to identify the employees 
+--who were hired after the employee in the result of #f. Your results should include their employee details.
+
+SELECT *
+FROM Employees
+WHERE hire_date > (
+    SELECT hire_date
+    FROM Employees
+    WHERE salary = (
+        SELECT MIN(salary) 
+        FROM Employees
+    )
+);
+
+
+--i.Using your knowledge from your queries for #e-h to write a SQL statement that uses multiple subqueries to identify the list of employees that
+--were hired after and make more than the employee that makes the least amount in the organization.
+
+
+SELECT *
+FROM Employees
+WHERE hire_date > (
+    SELECT hire_date
+    FROM Employees
+    WHERE salary = (
+        SELECT MIN(salary)
+        FROM Employees)
+) AND salary > (
+    SELECT MIN(salary)
+    FROM Employees
+);
+
+-- j. Write a SQL statement to identify the order numbers for orders with a total amount that is greater than $25. 
+SELECT order_nbr
+FROM Orders
+WHERE order_total > 25;
+
+--k. 	Write a SQL statement to identify the orders with order dates between January 1, 2017 and December 31, 2020. 
+
+
+SELECT *
+FROM Orders
+WHERE order_date BETWEEN '2017-01-01' AND '2020-12-31';
+
+
+--l. Using your knowledge from your queries from #j-k, write a SQL statement that uses a subquery to identify customers with orders between January 1, 2017 and December 31, 2020 
+-- that totaled more than $25. Your results should include the customer ID, order number, order date, and order total.
+SELECT customer_ID, order_nbr, order_date, order_total
+FROM Orders
+WHERE order_date BETWEEN '2017-01-01' AND '2020-12-31'
+AND order_total > 25
+AND customer_ID IN (
+    SELECT customer_ID
+    FROM Orders
+    WHERE order_date BETWEEN '2017-01-01' AND '2020-12-31'
+    GROUP BY customer_ID
+);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
