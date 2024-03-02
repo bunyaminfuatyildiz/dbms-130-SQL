@@ -1,0 +1,77 @@
+
+-- A. 
+-- a.	Write the SQL to create a view called CommissionedSalaries to display the calculated salaries (including commission) of employees that receive a commission. 
+CREATE VIEW CommissionedSalaries AS
+SELECT 
+    e.employee_ID,
+    e.last_name, 
+    e.first_name,
+    d.department_name,
+    j.job_title,
+    e.salary,
+    e.commission_pct,
+    (e.salary + (e.salary * (e.commission_pct / 100))) AS commissioned_salary
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id
+JOIN jobs j ON e.job_id = j.job_id
+WHERE e.commission_pct IS NOT NULL -- Only include employees with commission
+ORDER BY 
+    e.employee_ID, e.last_name, e.first_name, -- Employee details
+    commissioned_salary DESC; -- Commissioned salary descending 
+
+
+
+
+
+CREATE VIEW ManagerEmployeeCount AS
+SELECT
+    m.employee_id,
+    m.last_name,
+    m.first_name,
+    d.department_name,
+    j.job_title,
+    COUNT(e.employee_id) AS employee_count
+FROM employees m
+JOIN employees e ON m.employee_id = e.manager_id
+JOIN departments d ON m.department_id = d.department_id
+JOIN jobs j ON m.job_id = j.job_id
+GROUP BY
+    m.employee_id,
+    m.last_name, 
+    m.first_name, 
+    d.department_name, 
+    j.job_title
+ORDER BY 
+    m.employee_id, m.last_name, m.first_name, -- Manager details
+    employee_count DESC; -- Employee count descending
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE VIEW ManagerEmployeeList AS
+SELECT 
+    e.employee_id,
+    e.last_name,
+    e.first_name,
+    d.department_name,
+    j.job_title
+FROM employees e
+JOIN employees m ON e.manager_id = m.employee_id 
+JOIN departments d ON e.department_id = d.department_id
+JOIN jobs j ON e.job_id = j.job_id
+ORDER BY 
+    m.employee_id, m.last_name, m.first_name; -- Manager details
+
+
+
+
+
