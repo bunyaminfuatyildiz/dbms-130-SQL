@@ -47,4 +47,104 @@ CREATE INDEX index_name ON Rental_Customers (last_name);
 CREATE SYNONYM TU FOR TITLE_UNAVAIL;
 
 
+--F. a
+SELECT MOVIES.TITLE, COUNT(*) AS rental_count
+FROM RENTAL_HISTORY
+JOIN MEDIA ON RENTAL_HISTORY.MEDIA_ID = MEDIA.MEDIA_ID
+JOIN MOVIES ON MEDIA.TITLE_ID = MOVIES.TITLE_ID
+GROUP BY MOVIES.TITLE
+ORDER BY rental_count DESC;
+
+
+--F b
+SELECT 
+  FIRST_NAME || ' ' || LAST_NAME AS customer_name,
+  ADDRESS, 
+  CITY, 
+  STATE,
+  LENGTH(FIRST_NAME || ' ' || LAST_NAME) AS name_length,
+  LENGTH(ADDRESS) AS address_length
+FROM CUSTOMER
+WHERE CUSTOMER_ID IN (
+  SELECT CUSTOMER_ID
+  FROM RENTAL_HISTORY
+  GROUP BY CUSTOMER_ID
+  HAVING COUNT(*) > 1
+)
+ORDER BY LAST_NAME;
+
+
+--F c
+
+
+SELECT MEDIA.FORMAT, COUNT(*) AS rental_count
+FROM RENTAL_HISTORY
+JOIN MEDIA ON RENTAL_HISTORY.MEDIA_ID = MEDIA.MEDIA_ID
+GROUP BY MEDIA.FORMAT
+ORDER BY rental_count DESC;
+
+
+
+
+--F d
+
+SELECT 
+    ACTORS.FIRST_NAME || ' ' || ACTORS.LAST_NAME AS actor_name, 
+    MOVIES.TITLE 
+FROM STAR_BILLINGS
+JOIN ACTORS ON STAR_BILLINGS.ACTOR_ID = ACTORS.ACTOR_ID
+JOIN MOVIES ON STAR_BILLINGS.TITLE_ID = MOVIES.TITLE_ID
+ORDER BY ACTORS.LAST_NAME, ACTORS.FIRST_NAME;
+
+--F e
+
+SELECT RELEASE_DATE, TITLE
+FROM MOVIES
+WHERE RELEASE_DATE <= ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), -300) 
+ORDER BY RELEASE_DATE;
+
+
+
+
+
+
+--G 1
+
+SELECT 
+    to_char(RENTAL_HISTORY.RENTAL_DATE, 'YYYY-MM') AS rental_month, 
+    COUNT(*) AS rentals_count 
+FROM 
+    RENTAL_HISTORY 
+JOIN 
+    MEDIA ON MEDIA.MEDIA_ID = RENTAL_HISTORY.MEDIA_ID 
+GROUP BY 
+    to_char(RENTAL_HISTORY.RENTAL_DATE, 'YYYY-MM') 
+ORDER BY 
+    rental_month;  
+
+
+--G2 
+SELECT 
+    category, 
+    SUM(rental_count * profit_margin) AS total_profit 
+FROM 
+    (
+        SELECT 
+            MOVIES.category, 
+            COUNT(*) AS rental_count, 
+            0.5 AS profit_margin -- Hypothetical profit margin 
+        FROM 
+            RENTAL_HISTORY 
+        JOIN 
+            MEDIA ON RENTAL_HISTORY.MEDIA_ID = MEDIA.MEDIA_ID 
+        JOIN 
+            MOVIES ON MEDIA.TITLE_ID = MOVIES.TITLE_ID 
+        GROUP BY 
+            MOVIES.category
+    ) 
+GROUP BY 
+    category 
+ORDER BY 
+    total_profit DESC;
+
 
