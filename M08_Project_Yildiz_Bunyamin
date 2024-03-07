@@ -1,0 +1,50 @@
+--1.	Create a view called TITLE_UNAVAIL to show the movie titles and media_id of the media not returned yet. 
+-- The view should not allow any DML operations.
+
+
+CREATE VIEW TITLE_UNAVAIL AS
+SELECT MOVIES.TITLE, MEDIA.MEDIA_ID
+FROM MEDIA
+JOIN MOVIES ON MEDIA.TITLE_ID = MOVIES.TITLE_ID
+JOIN RENTAL_HISTORY ON MEDIA.MEDIA_ID = RENTAL_HISTORY.MEDIA_ID
+WHERE RENTAL_HISTORY.RETURN_DATE IS NULL;
+
+
+-- 2.	Use a sequence to generate PKs for CUSTOMER_ID in RENTAL_CUSTOMERS table. 
+--Begin at 101 and increment by 1.
+
+CREATE SEQUENCE movies_seq
+START WITH 1      -- Start at 1
+INCREMENT BY 1    -- Increment by 1
+NOMAXVALUE        -- No maximum value (or set MAXVALUE if you prefer)
+NOCYCLE;          -- Do not cycle back to the start value
+
+-- 3.	Use a sequence to generate PKs for TITLE_ID in MOVIES table. 
+-- Begin at 1 and increment by 1. 
+CREATE SEQUENCE media_seq
+START WITH 92     -- Start at 92
+INCREMENT BY 1    -- Increment by 1
+NOMAXVALUE        -- No maximum value (or set MAXVALUE if you prefer)
+NOCYCLE;          -- Do not cycle back to the start value
+
+
+
+-- 4.	Use a sequence to generate PKs for ACTOR_ID in ACTOR table. 
+-- Begin at 1001 and increment by 1.
+
+CREATE SEQUENCE actor_seq
+START WITH 1001   -- Start at 1001
+INCREMENT BY 1    -- Increment by 1
+NOMAXVALUE        -- No maximum value (or set MAXVALUE if you prefer)
+NOCYCLE;          -- Do not cycle back to the start value
+
+-- D.	Creating Indexes (5 points)
+-- 1.	Create an index on the last_name column of the Rental Customers table.
+CREATE INDEX index_name ON Rental_Customers (last_name);
+
+--E. Create a synonym called TU for the TITLE_UNAVAIL view.
+
+CREATE SYNONYM TU FOR TITLE_UNAVAIL;
+
+
+
