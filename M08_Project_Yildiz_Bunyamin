@@ -12,21 +12,30 @@ WHERE RENTAL_HISTORY.RETURN_DATE IS NULL;
 
 -- 2.	Use a sequence to generate PKs for CUSTOMER_ID in RENTAL_CUSTOMERS table. 
 --Begin at 101 and increment by 1.
+CREATE SEQUENCE rental_customers_seq
+START WITH 101    -- 101 is starting
+INCREMENT BY 1    -- increment by 1
+NOMAXVALUE        -- No max
+NOCYCLE;          -- do not cycle
+
+
+-- 3.	Use a sequence to generate PKs for TITLE_ID in MOVIES table. 
+-- Begin at 1 and increment by 1. 
+
+
 
 CREATE SEQUENCE movies_seq
 START WITH 1      -- Start at 1
 INCREMENT BY 1    -- Increment by 1
-NOMAXVALUE        -- No maximum value (or set MAXVALUE if you prefer)
+NOMAXVALUE        -- No maximum value
 NOCYCLE;          -- Do not cycle back to the start value
 
--- 3.	Use a sequence to generate PKs for TITLE_ID in MOVIES table. 
--- Begin at 1 and increment by 1. 
+
 CREATE SEQUENCE media_seq
 START WITH 92     -- Start at 92
 INCREMENT BY 1    -- Increment by 1
-NOMAXVALUE        -- No maximum value (or set MAXVALUE if you prefer)
-NOCYCLE;          -- Do not cycle back to the start value
-
+NOMAXVALUE        -- No maximum value 
+NOCYCLE;          -- Do not cycle back
 
 
 -- 4.	Use a sequence to generate PKs for ACTOR_ID in ACTOR table. 
@@ -35,8 +44,8 @@ NOCYCLE;          -- Do not cycle back to the start value
 CREATE SEQUENCE actor_seq
 START WITH 1001   -- Start at 1001
 INCREMENT BY 1    -- Increment by 1
-NOMAXVALUE        -- No maximum value (or set MAXVALUE if you prefer)
-NOCYCLE;          -- Do not cycle back to the start value
+NOMAXVALUE        -- No maximum value 
+NOCYCLE;          -- Do not cycle back 
 
 -- D.	Creating Indexes (5 points)
 -- 1.	Create an index on the last_name column of the Rental Customers table.
